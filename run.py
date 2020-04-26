@@ -43,7 +43,7 @@ class Profiles(Resource):
                 })
 
         return response
-    
+
     def post(self):
         name = request.json['name']
         age = int(request.json['age']) if request.json['age'] else None
