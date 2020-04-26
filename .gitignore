@@ -31,4 +31,5 @@ yarn-error.log*
 .now
 
 .idea/
+Pipfile.lock
 build/
