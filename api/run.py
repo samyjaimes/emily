@@ -21,13 +21,14 @@ class Files(Resource):
         above = path + '/..'
 
         for r, d, f in os.walk(above):
-            if f in ('run.py', 'emily.db'):
-                result.update({
-                    r: {
-                        'directories': d,
-                        'files': f
-                    }
-                })
+            for file_ in f:
+                if file_ in ('run.py', 'emily.db'):
+                    result.update({
+                        r: {
+                            'directories': d,
+                            'files': f
+                        }
+                    })
 
         return result
 
