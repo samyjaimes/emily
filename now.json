@@ -1,5 +1,6 @@
 {
-  "version": 2,
+  "version": 3,
+  "name": "emily-api",
   "functions": {
     "backend/api.py": {
       "runtime": "@now/python",
@@ -10,7 +11,7 @@
   "routes": [
     {
       "src": "/backend",
-      "dest": "api$1"
+      "dest": "run.py"
     },
     {
       "src": "/_next(.*)",
