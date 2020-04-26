@@ -8,6 +8,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 file_path = os.path.abspath(os.getcwd())
 print(file_path)
+print(__file__)
 db_connect = create_engine('sqlite:///%s/emily.db' % file_path)
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -89,4 +90,4 @@ class Profiles(Resource):
 api.add_resource(Profiles, '/api/profiles', '/api/profiles/<int:profile_id>')
 
 if __name__ == '__main__':
-     app.run()
+     app.run(debug=True)
