@@ -4,16 +4,19 @@
     {
       "src": "frontend/package.json",
       "use": "@now/next"
-    },
-    {
-      "src": "backend/*.py",
-      "use": "@now/python"
     }
   ],
+  "functions": {
+    "api/**/*.py": {
+      "runtime": "@now/python",
+      "memory": 3008,
+      "maxDuration": 60
+    }
+  },
   "routes": [
     {
       "src": "/api(.*)",
-      "dest": "backend$1"
+      "dest": "api$1"
     },
     {
       "src": "/_next(.*)",
