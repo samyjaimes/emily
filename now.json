@@ -1,15 +1,15 @@
 {
   "version": 2,
   "functions": {
-    "api/**/*.py": {
-      "runtime": "@now/python@1.1.6",
+    "backend/api.py": {
+      "runtime": "@now/python",
       "memory": 3008,
       "maxDuration": 60
     }
   },
   "routes": [
     {
-      "src": "/api(.*)",
+      "src": "/backend",
       "dest": "api$1"
     },
     {
