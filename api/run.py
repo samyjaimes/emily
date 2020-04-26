@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 
 file_path = os.path.abspath(os.getcwd())
 print(file_path)
-db_connect = create_engine('sqlite:////%s/emily.db' % file_path)
+db_connect = create_engine('sqlite:///%s/emily.db' % file_path)
 app = Flask(__name__)
 api = Api(app)
 
