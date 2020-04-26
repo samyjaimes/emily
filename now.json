@@ -14,7 +14,7 @@
   "routes": [
     {
       "src": "/api/.*",
-      "dest": "run.py"
+      "dest": "api/run.py"
     },
     {
       "src": "/_next(.*)",
