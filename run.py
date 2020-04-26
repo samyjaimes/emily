@@ -84,4 +84,4 @@ class Profiles(Resource):
 api.add_resource(Profiles, '/profiles', '/profiles/<int:profile_id>')
 
 if __name__ == '__main__':
-     app.run(port='5000')
+     app.run()
