@@ -1,18 +1,12 @@
 {
-  "version": 3,
-  "name": "emily-api",
-  "functions": {
-    "backend/api.py": {
-      "runtime": "@now/python",
-      "memory": 3008,
-      "maxDuration": 60
-    }
-  },
-  "routes": [
+  "version": 2,
+  "builds": [
     {
-      "src": "/backend",
-      "dest": "run.py"
-    },
+      "src": "frontend/package.json",
+      "use": "@now/next"
+    }
+  ],
+  "routes": [
     {
       "src": "/_next(.*)",
       "dest": "frontend/_next$1"
