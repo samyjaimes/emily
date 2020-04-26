@@ -76,12 +76,12 @@ class Profiles(Resource):
 
     def delete(self, profile_id):
         conn = db_connect.connect()
-        query = conn.execute('delete from table profiles where profile_id=%d' % profile_id)
+        query = conn.execute('delete from profiles where profile_id=%d' % profile_id)
 
         return {'status': 'profile id %d has been removed' % profile_id}
 
 
-api.add_resource(Profiles, '/profiles', '/profiles/<int:profile_id>')
+api.add_resource(Profiles, '/api/profiles', '/api/profiles/<int:profile_id>')
 
 if __name__ == '__main__':
      app.run()
