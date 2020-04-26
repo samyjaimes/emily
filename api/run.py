@@ -14,20 +14,21 @@ api = Api(app)
 
 
 class Files(Resource):
+
     def get(self):
-        result = []
+        result = {}
         path = os.path.abspath(os.getcwd())
         above = path + '/..'
 
-        for pt in (path, above):
-            pre_result = {'path': pt}
-            for i, r, d, f in enumerate(os.walk(pt)):
-                pre_result.update({i: f})
-            result.append(pre_result)
+        for r, d, f in os.walk(above):
+            result.update({
+                r: {
+                    'directories': d,
+                    'files': f
+                }
+            })
 
         return result
-
-
 
 
 class Profiles(Resource):
