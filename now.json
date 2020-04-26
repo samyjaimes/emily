@@ -4,9 +4,18 @@
     {
       "src": "frontend/package.json",
       "use": "@now/next"
+    },
+    {
+      "src": "api/*.py",
+      "use": "@liudonghua123/now-flask" ,
+      "config": { "maxLambdaSize": "30mb" }
     }
   ],
   "routes": [
+    {
+      "src": "api(.*)",
+      "dest": "api$1"
+    },
     {
       "src": "/_next(.*)",
       "dest": "frontend/_next$1"
