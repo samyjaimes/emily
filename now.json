@@ -2,7 +2,7 @@
   "version": 2,
   "functions": {
     "api/**/*.py": {
-      "runtime": "@now/python",
+      "runtime": "@now/python@1.1.6",
       "memory": 3008,
       "maxDuration": 60
     }
