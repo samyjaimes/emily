@@ -9,12 +9,12 @@ with open('README.md', encoding='utf-8') as f:
 setup(
     name='emily',
     version='0.1',
-    description='Build a REST API with Flask',
+    description='Emily Application',
     long_description=long_description,
-    url='',
-    author='',
-    author_email='',
-    license='',
+    url='https://',
+    author='Samy Jaimes',
+    author_email='samy_jaimes@hotmail.com',
+    packages=find_packages(),
     classifiers=[
         'Framework :: Flask',
         'Programming Language :: Python :: 3.6',
@@ -23,9 +23,6 @@ setup(
         'REST',
         'flask'
     ],
-    packages=find_packages(exclude=['tests*']),
-    include_package_data=False,
-    package_data={},
     python_requires='>=3.6',
     install_requires=[
         'werkzeug>=1.0.1',
