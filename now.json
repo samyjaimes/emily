@@ -4,9 +4,17 @@
     {
       "src": "frontend/package.json",
       "use": "@now/next"
+    },
+    {
+      "src": "backend/*.py",
+      "use": "@now/python"
     }
   ],
   "routes": [
+    {
+      "src": "/api(.*)",
+      "dest": "backend$1"
+    },
     {
       "src": "/_next(.*)",
       "dest": "frontend/_next$1"
