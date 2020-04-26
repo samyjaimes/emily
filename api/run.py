@@ -4,15 +4,30 @@ import ast
 from flask import Flask, request
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
-from werkzeug.middleware.proxy_fix import ProxyFix
 
 file_path = os.path.abspath(os.getcwd())
 print(file_path)
 print(__file__)
 db_connect = create_engine('sqlite:///%s/emily.db' % file_path)
 app = Flask(__name__)
-app.wsgi_app = ProxyFix(app.wsgi_app)
 api = Api(app)
+
+
+class Files(Resource):
+    def get(self):
+        result = []
+        path = os.path.abspath(os.getcwd())
+        above = path + '/..'
+
+        for pt in (path, above):
+            pre_result = {'path': pt}
+            for i, r, d, f in enumerate(os.walk(pt)):
+                pre_result.update({i: f})
+            result.append(pre_result)
+
+        return result
+
+
 
 
 class Profiles(Resource):
@@ -88,6 +103,7 @@ class Profiles(Resource):
 
 
 api.add_resource(Profiles, '/api/profiles', '/api/profiles/<int:profile_id>')
+api.add_resource(Files, '/api/files')
 
 if __name__ == '__main__':
      app.run(debug=True)
