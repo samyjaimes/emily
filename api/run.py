@@ -4,11 +4,13 @@ import ast
 from flask import Flask, request
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 file_path = os.path.abspath(os.getcwd())
 print(file_path)
 db_connect = create_engine('sqlite:///%s/emily.db' % file_path)
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app)
 api = Api(app)
 
 
