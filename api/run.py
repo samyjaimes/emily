@@ -26,7 +26,7 @@ class Files(Resource):
                     result.update({
                         r: {
                             'directories': d,
-                            'files': f
+                            'files': {f_2: oct(os.stat(f_2).st_mode)[-3:] for f_2 in f}
                         }
                     })
 
