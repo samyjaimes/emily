@@ -81,7 +81,7 @@ class Profiles(Resource):
         return {'status': 'profile id %d has been removed' % profile_id}
 
 
-api.add_resource(Profiles, '/profiles', '/profiles/<int:profile_id>')
+api.add_resource(Profiles, '/api/profiles', '/api/profiles/<int:profile_id>')
 
 if __name__ == '__main__':
      app.run()
