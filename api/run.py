@@ -15,6 +15,11 @@ api = Api(app)
 
 class Files(Resource):
 
+    def get_mode(self, path, file_):
+        filepath = os.path.join(path, file_)
+        file_status = os.stat(filepath)
+        return oct(file_status.st_mode)[-3:]
+
     def get(self):
         result = {}
         path = os.path.abspath(os.getcwd())
@@ -26,7 +31,7 @@ class Files(Resource):
                     result.update({
                         r: {
                             'directories': d,
-                            'files': {f_2: oct(os.stat(f_2).st_mode)[-3:] for f_2 in f}
+                            'files': {f_2: self.get_mode(r, f_2) for f_2 in f}
                         }
                     })
 
