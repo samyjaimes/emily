@@ -6,7 +6,7 @@
       "use": "@now/next"
     },
     {
-      "src": "*.py",
+      "src": "api/*.py",
       "use": "@liudonghua123/now-flask" ,
       "config": { "maxLambdaSize": "30mb" }
     }
@@ -14,7 +14,7 @@
   "routes": [
     {
       "src": "/api/.*",
-      "dest": "run.py"
+      "dest": "api/run.py"
     },
     {
       "src": "/_next(.*)",
