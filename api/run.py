@@ -5,8 +5,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 
-file_path = os.path.abspath(os.getcwd())
-db_connect = create_engine('sqlite:////%s/emily.db' % file_path)
+db_connect = create_engine('sqlite:///emily.db')
 app = Flask(__name__)
 api = Api(app)
 
@@ -26,6 +25,7 @@ class Files(Resource):
         for r, d, f in os.walk(above):
             for file_ in f:
                 if file_ in ('run.py', 'emily.db'):
+                    os.chmod(os.path.join(r, file_), 0o666)
                     result.update({
                         r: {
                             'directories': d,
