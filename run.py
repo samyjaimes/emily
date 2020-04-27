@@ -1,12 +1,40 @@
+import os
 import ast
 
 from flask import Flask, request
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 
-db_connect = create_engine('sqlite:///emily.db')
+file_path = os.path.abspath(os.getcwd())
+db_connect = create_engine('sqlite:///%s/emily.db' % file_path)
 app = Flask(__name__)
 api = Api(app)
+
+
+class Files(Resource):
+
+    def get_mode(self, path, file_):
+        filepath = os.path.join(path, file_)
+        file_status = os.stat(filepath)
+        return oct(file_status.st_mode)[-3:]
+
+    def get(self):
+        result = {}
+        path = os.path.abspath(os.getcwd())
+        above = path + '/..'
+
+        for r, d, f in os.walk(above):
+            for file_ in f:
+                if file_ in ('run.py', 'emily.db'):
+                    result.update({
+                        r: {
+                            'directories': d,
+                            'files': {f_2: self.get_mode(r, f_2) for f_2 in f}
+                        }
+                    })
+
+        result.update({'emily.db': file_path})
+        return result
 
 
 class Profiles(Resource):
@@ -76,12 +104,13 @@ class Profiles(Resource):
 
     def delete(self, profile_id):
         conn = db_connect.connect()
-        query = conn.execute('delete from table profiles where profile_id=%d' % profile_id)
+        query = conn.execute('delete from profiles where profile_id=%d' % profile_id)
 
         return {'status': 'profile id %d has been removed' % profile_id}
 
 
-api.add_resource(Profiles, '/profiles', '/profiles/<int:profile_id>')
+api.add_resource(Profiles, '/api/profiles', '/api/profiles/<int:profile_id>')
+api.add_resource(Files, '/api/files')
 
 if __name__ == '__main__':
-     app.run(port='5000')
+     app.run(debug=True)
