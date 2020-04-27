@@ -30,6 +30,8 @@ yarn-error.log*
 .env.production.local
 .now
 
+# backend
 .idea/
 Pipfile.lock
 build/
+api/scripts/
