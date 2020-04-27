@@ -9,21 +9,12 @@
       "src": "api/*.py",
       "use": "@liudonghua123/now-flask" ,
       "config": { "maxLambdaSize": "30mb" }
-    },
-    {
-      "src": "*.py",
-      "use": "@liudonghua123/now-flask" ,
-      "config": { "maxLambdaSize": "30mb" }
     }
   ],
   "routes": [
     {
-      "src": "/api_2/.*",
-      "dest": "api/run.py"
-    },
-        {
       "src": "/api/.*",
-      "dest": "run.py"
+      "dest": "api/run.py"
     },
     {
       "src": "/_next(.*)",
