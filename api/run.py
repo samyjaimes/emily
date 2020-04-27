@@ -5,7 +5,8 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 
-db_connect = create_engine('sqlite:////var/task/api/emily.db')
+file_path = os.path.abspath(os.getcwd())
+db_connect = create_engine('sqlite:///%s/emily.db' % file_path)
 app = Flask(__name__)
 api = Api(app)
 
