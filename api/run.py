@@ -60,15 +60,14 @@ class Profiles(Resource):
         else:
             query = conn.execute('select * from profiles')
 
-        if query:
-            goals_mapping = self.map_goals()
-            for row in query.cursor.fetchall():
-                response.append({
-                    'name': row[0],
-                    'age': row[1],
-                    'goals': [goals_mapping[goal_id] for goal_id in ast.literal_eval(row[2])],
-                    'profile_id': row[3]
-                })
+        goals_mapping = self.map_goals()
+        for row in query.cursor.fetchall():
+            response.append({
+                'name': row[0],
+                'age': row[1],
+                'goals': [goals_mapping[goal_id] for goal_id in ast.literal_eval(row[2])],
+                'profile_id': row[3]
+            })
 
         return response
     
@@ -109,7 +108,51 @@ class Profiles(Resource):
         return {'status': 'profile id %d has been removed' % profile_id}
 
 
+class Schedules(Resource):
+
+    def get(self):
+        conn = db_connect.connect()
+
+        query_schedules = conn.execute(
+            'select '
+            '       title, '
+            '       act.activity_id, '
+            '       duration, '
+            '       act_sch.start_time, '
+            '       act_sch.end_time, '
+            '       pr_sch.profile_id '
+            'from '
+            '     activities as act '
+            'join activities_schedule as act_sch '
+            '    on act.activity_id = act_sch.activity_id '
+            'join profile_schedule as pr_sch '
+            '    on act_sch.schedule_id = pr_sch.schedule_id; '
+        )
+
+        active_schedules = {}
+        for row in query_schedules.cursor.fetchall():
+            title = row[0]
+            activity_id = row[1]
+            duration = row[2]
+            start_time = row[3]
+            end_time = row[4]
+            profile_id = row[5]
+
+            activity = {
+                'title': title,
+                'activity_id': activity_id,
+                'start_time': start_time,
+                'end_time': end_time
+            }
+
+            profile_activity = active_schedules.setdefault(profile_id, [])
+            profile_activity.append(activity)
+
+        return active_schedules
+
+
 api.add_resource(Profiles, '/api/profiles', '/api/profiles/<int:profile_id>')
+api.add_resource(Schedules, '/api/schedules')
 api.add_resource(Files, '/api/files')
 
 if __name__ == '__main__':
