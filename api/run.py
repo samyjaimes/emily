@@ -111,8 +111,9 @@ class Profiles(Resource):
 class Schedules(Resource):
 
     def get(self):
-        conn = db_connect.connect()
+        response = {}
 
+        conn = db_connect.connect()
         query_schedules = conn.execute(
             'select '
             '       title, '
@@ -129,7 +130,6 @@ class Schedules(Resource):
             '    on act_sch.schedule_id = pr_sch.schedule_id; '
         )
 
-        active_schedules = {}
         for row in query_schedules.cursor.fetchall():
             title = row[0]
             activity_id = row[1]
@@ -145,13 +145,41 @@ class Schedules(Resource):
                 'end_time': end_time
             }
 
-            profile_activity = active_schedules.setdefault(profile_id, [])
+            profile_activity = response.setdefault(profile_id, [])
             profile_activity.append(activity)
 
-        return active_schedules
+        return response
+
+
+class Activity(Resource):
+
+    def get(self, activity_id):
+        response = {}
+
+        if activity_id:
+            conn = db_connect.connect()
+            query = conn.execute('select * from activities where activity_id=%s' % activity_id)
+
+            result = query.cursor.fetchone()
+            if result:
+                response['title'] = result[0]
+                response['preparation'] = result[1]
+                response['description'] = result[2]
+                response['min_age'] = result[3]
+                response['max_age'] = result[4]
+                response['duration'] = result[5]
+                response['goals_classification'] = {
+                    'didactic': result[6],
+                    'movement': result[7],
+                    'creativity': result[8],
+                    'relaxing': result[9],
+                }
+
+        return response
 
 
 api.add_resource(Profiles, '/api/profiles', '/api/profiles/<int:profile_id>')
+api.add_resource(Activity, '/api/activities/<int:activity_id>')
 api.add_resource(Schedules, '/api/schedules')
 api.add_resource(Files, '/api/files')
 
