@@ -1,0 +1,90 @@
+create table activities
+(
+	title text not null,
+	preparation text not null,
+	description text not null,
+	age_min int default 1,
+	age_max int default 6,
+	duration int not null,
+	didactic real default 0.0,
+	movement real default 0.0,
+	creativity real default 0.0,
+	relaxing real default 0.0,
+	activity_id integer primary key autoincrement
+);
+
+create table profiles
+(
+	name text not null,
+	age int not null,
+	goals text not null,
+	profile_id integer primary key autoincrement
+);
+
+create table goals
+(
+	name text not null,
+	goal_id integer primary key autoincrement
+);
+
+create table activities_rating
+(
+	activity_id integer not null,
+	profile_id integer not null,
+	timestamp integer not null,
+	rating_score integer not null,
+	foreign key (activity_id) references
+	    activities (activity_id)
+            on delete cascade
+            on update no action,
+    foreign key (profile_id) references
+        profiles (profile_id)
+            on delete cascade
+            on update no action,
+    unique (activity_id, profile_id, timestamp)
+);
+
+create table activities_schedule
+(
+    activity_id integer not null,
+    schedule_id integer not null,
+    start_time integer not null,
+    end_time integer not null,
+    foreign key (schedule_id) references
+        schedules (schedule_id)
+            on delete cascade
+            on update no action
+);
+
+create table profile_schedule
+(
+    profile_id integer not null,
+    schedule_id integer not null,
+    unique (profile_id)
+);
+
+create table schedules
+(
+    created_at integer not null,
+    schedule_id integer primary key autoincrement
+);
+
+create table edited_activities
+(
+    activity_id integer not null,
+    activity_id_origin integer not null,
+    schedule_id integer not null,
+    edited_at integer not null,
+    foreign key (activity_id) references
+        activities (activity_id)
+            on delete cascade
+            on update no action,
+    foreign key (activity_id_origin) references
+        activities (activity_id)
+            on delete cascade
+            on update no action,
+    foreign key (schedule_id) references
+        schedules (schedule_id)
+            on delete cascade
+            on update no action
+);
