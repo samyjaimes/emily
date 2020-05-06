@@ -116,12 +116,12 @@ class Schedules(Resource):
         conn = db_connect.connect()
         query_schedules = conn.execute(
             'select '
-            '       title, '
-            '       act.activity_id, '
-            '       duration, '
-            '       act_sch.start_time, '
-            '       act_sch.end_time, '
-            '       pr_sch.profile_id '
+            '     title, '
+            '     act.activity_id, '
+            '     duration, '
+            '     act_sch.start_time, '
+            '     act_sch.end_time, '
+            '     pr_sch.profile_id '
             'from '
             '     activities as act '
             'join activities_schedule as act_sch '
@@ -168,12 +168,11 @@ class Activity(Resource):
                 response['min_age'] = result[3]
                 response['max_age'] = result[4]
                 response['duration'] = result[5]
-                response['goals_classification'] = {
-                    'didactic': result[6],
-                    'movement': result[7],
-                    'creativity': result[8],
-                    'relaxing': result[9],
-                }
+                response['didactic'] = result[6]
+                response['movement'] = result[7]
+                response['creativity'] = result[8]
+                response['relaxing'] = result[9]
+                response['activity_id'] = result[10]
 
         return response
 
